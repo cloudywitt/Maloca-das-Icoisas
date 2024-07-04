@@ -40,7 +40,7 @@ def pegar_opcao(remedios):
             case 3:
                 alterar_estado_remedio(remedios)
             case 4:
-                finalizar_programa(remedios)
+                finalizar_programa()
             case _:
                 limpar_tela()
 
@@ -51,7 +51,7 @@ def pegar_opcao(remedios):
         print("Opção inválida: tente outra")
 
     except KeyboardInterrupt:
-        finalizar_programa(remedios)
+        finalizar_programa()
 
     input("\nDigite uma tecla para voltar ao menu ")
 
@@ -79,6 +79,8 @@ def cadastrar_remedio(remedios):
         }
 
         remedios.append(remedio)
+
+        salvar_remedios(remedios)
 
         limpar_tela()
 
@@ -122,6 +124,8 @@ def alterar_estado_remedio(remedios):
 
         limpar_tela()
 
+        salvar_remedios(remedios)
+
         print(f"Estado de {remedios[remedio_id]['nome']} alterado.")
     except ValueError:
         limpar_tela()
@@ -133,16 +137,18 @@ def alterar_estado_remedio(remedios):
         print("ERRO: remédio não encontrado.")
 
 
-def finalizar_programa(remedios):
+def finalizar_programa():
+    print("\nObrigado pela preferência!")
+
+    exit(0)
+
+
+def salvar_remedios(remedios):
     with open("remedios.csv", "w") as file:
         writer = csv.DictWriter(file, ("nome", "preco", "ativo"))
 
         writer.writeheader()
         writer.writerows(remedios)
-
-    print("\nObrigado pela preferência!")
-
-    exit(0)
 
 
 def main(remedios):
