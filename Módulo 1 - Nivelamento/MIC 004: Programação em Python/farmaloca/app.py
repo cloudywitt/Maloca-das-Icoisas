@@ -1,7 +1,5 @@
 import os
 
-remedios = []
-
 
 class EmptyNameError(ValueError):
     pass
@@ -29,17 +27,17 @@ def print_menu():
     print("4. Sair")
 
 
-def pegar_opcao():
+def pegar_opcao(remedios):
     try:
         escolha = int(input("Escolha uma opção: "))
 
         match escolha:
             case 1:
-                cadastrar_remedio()
+                cadastrar_remedio(remedios)
             case 2:
-                listar_remedios()
+                listar_remedios(remedios)
             case 3:
-                alterar_estado_remedio()
+                alterar_estado_remedio(remedios)
             case 4:
                 sair_do_programa()
             case _:
@@ -57,7 +55,7 @@ def pegar_opcao():
     input("\nDigite uma tecla para voltar ao menu ")
 
 
-def cadastrar_remedio():
+def cadastrar_remedio(remedios):
     limpar_tela()
 
     print("-- Cadastrar remédio --")
@@ -94,7 +92,7 @@ def cadastrar_remedio():
         print("ERRO: preço inválido de remédio.")
 
 
-def listar_remedios():
+def listar_remedios(remedios):
     limpar_tela()
 
     print("-- Remédios --")
@@ -107,7 +105,7 @@ def listar_remedios():
         )
 
 
-def alterar_estado_remedio():
+def alterar_estado_remedio(remedios):
     limpar_tela()
 
     try:
@@ -140,12 +138,14 @@ def sair_do_programa():
     exit(0)
 
 
-def main():
+def main(remedios):
     limpar_tela()
     print_menu()
-    pegar_opcao()
+    pegar_opcao(remedios)
 
 
 if __name__ == '__main__':
+    remedios = []
+
     while True:
-        main()
+        main(remedios)
