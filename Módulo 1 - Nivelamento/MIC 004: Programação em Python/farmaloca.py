@@ -71,7 +71,7 @@ def cadastrar_remedio():
         preco_remedio = float(input("Preço: "))
 
         if preco_remedio < 0:
-            raise ValueError
+            raise InvalidPriceError
 
         remedio = {
             "nome": remedio_nome,
