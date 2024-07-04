@@ -1,4 +1,5 @@
 import os
+import csv
 
 
 class EmptyNameError(ValueError):
@@ -39,7 +40,7 @@ def pegar_opcao(remedios):
             case 3:
                 alterar_estado_remedio(remedios)
             case 4:
-                sair_do_programa()
+                finalizar_programa(remedios)
             case _:
                 limpar_tela()
 
@@ -50,7 +51,7 @@ def pegar_opcao(remedios):
         print("Opção inválida: tente outra")
 
     except KeyboardInterrupt:
-        sair_do_programa()
+        finalizar_programa(remedios)
 
     input("\nDigite uma tecla para voltar ao menu ")
 
@@ -132,7 +133,13 @@ def alterar_estado_remedio(remedios):
         print("ERRO: remédio não encontrado.")
 
 
-def sair_do_programa():
+def finalizar_programa(remedios):
+    with open("remedios.csv", "w") as file:
+        writer = csv.DictWriter(file, ("nome", "preco", "ativo"))
+
+        writer.writeheader()
+        writer.writerows(remedios)
+
     print("\nObrigado pela preferência!")
 
     exit(0)
@@ -140,12 +147,23 @@ def sair_do_programa():
 
 def main(remedios):
     limpar_tela()
+
     print_menu()
     pegar_opcao(remedios)
 
 
 if __name__ == '__main__':
     remedios = []
+
+    if os.path.isfile("remedios.csv"):
+        with open("remedios.csv", "r") as file:
+            remedios_csv = csv.DictReader(file)
+
+            for remedio in remedios_csv:
+                remedio["preco"] = float(remedio["preco"])
+                remedio["ativo"] = bool(remedio["ativo"])
+
+                remedios.append(remedio)
 
     while True:
         main(remedios)
